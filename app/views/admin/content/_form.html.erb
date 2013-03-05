@@ -146,8 +146,16 @@
     <ul id='attachments' class='inputs-list'>
       <%= render 'admin/content/attachment', { :attachment_num => 1, :hidden => false } -%>
     </ul>
-  </div>    
   </div>
 
+  <div class=''>
+    <h4><%= _("Merge Articles") %></h4>
+    <p class='help-block'>You can merge duplicate articles by typing in the article id of the duplicate</p>
+    Article ID  <input type="text" name="merge_with">  <br>
+    <input type="submit" value="Merge">
+  </div>
 </div>
+
+</div>
+
 
