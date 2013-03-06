@@ -24,7 +24,9 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def new
+    @display_merge = 'none'
     new_or_edit
+
   end
 
   def edit
@@ -34,6 +36,10 @@ class Admin::ContentController < Admin::BaseController
       flash[:error] = _("Error, you are not allowed to perform this action")
       return
     end
+    if (current_user.name == 'admin')
+      @display_merge = 'block'
+    end
+
     new_or_edit
   end
 
@@ -142,6 +148,7 @@ class Admin::ContentController < Admin::BaseController
   def new_or_edit
     id = params[:id]
     id = params[:article][:id] if params[:article] && params[:article][:id]
+    merge_id = params[:merge_with]
     @article = Article.get_or_build_article(id)
     @article.text_filter = current_user.text_filter if current_user.simple_editor?
 
@@ -161,6 +168,8 @@ class Admin::ContentController < Admin::BaseController
     # TODO: Consider refactoring, because double rescue looks... weird.
         
     @article.published_at = DateTime.strptime(params[:article][:published_at], "%B %e, %Y %I:%M %p GMT%z").utc rescue Time.parse(params[:article][:published_at]).utc rescue nil
+
+    @article.merge_with(merge_id) if (!merge_id.blank? && !@article.blank?)
 
     if request.post?
       set_article_author
@@ -184,9 +193,14 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def set_the_flash
+
     case params[:action]
-    when 'new'
-      flash[:notice] = _('Article was successfully created')
+      when 'new'
+        if params[:merge_with] != ''
+          flash[:notice] = _('Articles were successfully merged')
+        else
+          flash[:notice] = _('Article was successfully created')
+        end
     when 'edit'
       flash[:notice] = _('Article was successfully updated.')
     else

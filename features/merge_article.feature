@@ -10,3 +10,6 @@ Feature: Merge Articles
   Scenario: See the merge article button
     Given I am on the edit article page for "Hello World!"
     Then I should see "Merge Articles"
+    When I press "Merge"
+    Then I should be on the admin content page
+    And I should see "Articles were successfully merged"

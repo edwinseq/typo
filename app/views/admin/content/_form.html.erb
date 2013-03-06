@@ -148,14 +148,13 @@
     </ul>
   </div>
 
-  <% if current_user.name == 'admin' %>
-  <div class='separator'>
+  <div class='separator' style='display:<%= @display_merge%>'>
     <h4><%= _("Merge Articles") %></h4>
-    <p class='help-block'>You can merge articles by typing in the article id of the duplicate</p>
+    <p class='help-block'>You can merge articles by typing in the id of the duplicate article</p>
     Article ID  <input type="text" name="merge_with">  <br>
     <input type="submit" value="Merge">
   </div>
-  <% end %>
+
 </div>
 
 </div>

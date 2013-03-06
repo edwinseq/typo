@@ -396,6 +396,17 @@ class Article < Content
     self.extended = parts[1] || ''
   end
 
+  def merge_with(other_article_id)
+    #merge two articles together
+    other_article = Article.find_by_id(other_article_id)
+
+    unless other_article.blank?
+      self.body_and_extended << other_article.body_and_extended
+      self.comments = self.comments + other_article.comments
+      other_article.destroy
+    end
+  end
+
   def link_to_author?
     !user.email.blank? && blog.link_to_author
   end
@@ -466,4 +477,6 @@ class Article < Content
     to = to - 1 # pull off 1 second so we don't overlap onto the next day
     return from..to
   end
+
+
 end
