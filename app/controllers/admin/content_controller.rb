@@ -36,8 +36,10 @@ class Admin::ContentController < Admin::BaseController
       flash[:error] = _("Error, you are not allowed to perform this action")
       return
     end
-    if (current_user.name == 'admin')
+    if (current_user.admin?)
       @display_merge = 'block'
+    else
+      @display_merge = 'none'
     end
 
     new_or_edit

@@ -403,7 +403,7 @@ class Article < Content
     unless other_article.blank?
       self.body_and_extended << other_article.body_and_extended
       self.comments = self.comments + other_article.comments
-      other_article.destroy
+      #other_article.destroy
     end
   end
 
