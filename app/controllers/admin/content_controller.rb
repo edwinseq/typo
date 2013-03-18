@@ -24,7 +24,7 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def new
-    @display_merge = 'none'
+    @display_merge = false
     new_or_edit
 
   end
@@ -171,7 +171,9 @@ class Admin::ContentController < Admin::BaseController
         
     @article.published_at = DateTime.strptime(params[:article][:published_at], "%B %e, %Y %I:%M %p GMT%z").utc rescue Time.parse(params[:article][:published_at]).utc rescue nil
 
-    @article.merge_with(merge_id) if (!merge_id.blank? && !@article.blank?)
+    if (!merge_id.blank? && !@article.blank? && current_user.admin?)
+      @article.merge_with(merge_id)
+    end
 
     if request.post?
       set_article_author
