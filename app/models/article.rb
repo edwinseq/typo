@@ -401,9 +401,21 @@ class Article < Content
     other_article = Article.find_by_id(other_article_id)
 
     unless other_article.blank?
-      self.body_and_extended << other_article.body_and_extended
-      self.comments = self.comments + other_article.comments
-      #other_article.destroy
+      #puts "Original body #{self.body_and_extended}"
+      self.body_and_extended = self.body_and_extended + other_article.body_and_extended
+      #puts "Modified body #{self.body_and_extended}"
+
+      #puts "Original Comments #{self.comments.inspect}"
+      #puts "Other Comments #{other_article.comments.inspect}"
+
+      other_article.comments.each do  |c|
+        #merge_comment = c
+        #self.add_comment(merge_comment)
+
+        #puts "Print merge comments #{merge_comment.inspect}"
+      end
+      #puts "Modified comments #{self.comments.inspect}"
+      other_article.destroy
     end
   end
 
