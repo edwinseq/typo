@@ -402,15 +402,11 @@ class Article < Content
 
     if (!other_article.blank?)
       self.body_and_extended = self.body_and_extended + other_article.body_and_extended
-      #puts "Original Comments #{self.comments.inspect}"
-      #puts "Other Comments #{other_article.comments.inspect}"
 
-      #other_article.comments.each do  |c|
-        #self.add_comment(merge_comment)
+      other_article.comments.each do  |c|
+        self.comments << c.clone
+      end
 
-        #puts "Print merge comments #{merge_comment.inspect}"
-      #end
-      #puts "Modified comments #{self.comments.inspect}"
       other_article.destroy
     end
   end
