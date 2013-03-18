@@ -37,9 +37,9 @@ class Admin::ContentController < Admin::BaseController
       return
     end
     if (current_user.admin?)
-      @display_merge = 'block'
+      @display_merge = true
     else
-      @display_merge = 'none'
+      @display_merge = false
     end
 
     new_or_edit
