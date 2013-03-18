@@ -400,17 +400,13 @@ class Article < Content
     #merge two articles together
     other_article = Article.find_by_id(other_article_id)
 
-    unless other_article.blank?
-      #puts "Original body #{self.body_and_extended}"
+    if ((!other_article.blank?) && (!current_user.admin?))
       self.body_and_extended = self.body_and_extended + other_article.body_and_extended
-      #puts "Modified body #{self.body_and_extended}"
-
       #puts "Original Comments #{self.comments.inspect}"
       #puts "Other Comments #{other_article.comments.inspect}"
 
       other_article.comments.each do  |c|
-        #merge_comment = c
-        #self.add_comment(merge_comment)
+        self.add_comment(merge_comment)
 
         #puts "Print merge comments #{merge_comment.inspect}"
       end
